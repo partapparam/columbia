@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
+import { useEffect } from "react"
 
 type ContactFormValues = {
   firstName: string
@@ -12,9 +13,11 @@ type ContactFormValues = {
 
 export const LetterForm = () => {
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("Full name required"),
-    lastName: Yup.string().required("Last name required"),
-    email: Yup.string().required("Email is required").email("Email is invalid"),
+    firstName: Yup.string().required("Please enter your first name"),
+    lastName: Yup.string().required("Please enter your last name"),
+    email: Yup.string()
+      .required("An email is required")
+      .email("Email is invalid"),
     permission: Yup.string().required(),
     futureContact: Yup.string(),
   })
@@ -25,47 +28,53 @@ export const LetterForm = () => {
     formState: { errors },
   } = useForm<ContactFormValues>({
     resolver: yupResolver(validationSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+    },
   })
 
   const onSubmit = (data: ContactFormValues) => {
     console.log(JSON.stringify(data, null, 2))
     reset()
   }
+    
+    const fields = [{
+        'label': 'First Name',
+        'name': firstName,
+        'errors': 'errors.firstName'
+    }
+    ]
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="text-black flex flex-col gap-y-4 z-50"
+      className="text-black flex flex-col gap-y-4 w-full"
     >
-      <div className="text-black">
-        <label>First Name</label>
-        <input
+          <div className="text-black">
+              {fields.map(field => {
+                  return <div>
+                      <input
           type="text"
-          id="firstName"
-          {...register("firstName")}
-          className={`${errors.firstName ? "is-invalid" : ""}`}
+          id={field['name']}
+          {...register(field['name'])}
+          className={`w-full border-b py-4 px-2 border-green-950 bg-transparent ${
+            field['errors'] ? "is-invalid border-red-500" : ""
+          }`}
+          placeholder="First Name"
+          //   placeholder={`${
+          //     touchedFields["firstName"] == true
+          //       ? "First Name"
+          //       : errors.firstName?.message
+          //   }`}
         />
-        <div className="invalid-feedback">{errors.firstName?.message}</div>
+        <div className="invalid-feedback">`${errors.{field['name']}?.message}`</div>
+                  </div>
+              })
+        
       </div>
-      <div className="text-black">
-        <label>Last Name</label>
-        <input
-          type="text"
-          id="lastName"
-          {...register("lastName")}
-          className={`${errors.lastName ? "is-invalid" : ""}`}
-        />
-        <div className="invalid-feedback">{errors.lastName?.message}</div>
-      </div>
-      <div className="">
-        <label>Email</label>
-        <input
-          type="text"
-          {...register("email")}
-          className={`${errors.email ? "is-invalid" : ""}`}
-        />
-        <div className="invalid-feedback">{errors.email?.message}</div>
-      </div>
+      
       <div>
         <input type="checkbox" {...register("permission")} className="mr-2" />
         <label className="text-sm">
