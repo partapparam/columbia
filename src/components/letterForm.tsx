@@ -2,21 +2,21 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 
-interface ContactFormProps {
-  closeModal: () => void
-}
-
 type ContactFormValues = {
   firstName: string
   lastName: string
   email: string
+  permission: string
+  futureContact: string
 }
 
-export const ContactForm = ({ closeModal }: ContactFormProps) => {
+export const LetterForm = () => {
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("Full name required"),
     lastName: Yup.string().required("Last name required"),
     email: Yup.string().required("Email is required").email("Email is invalid"),
+    permission: Yup.string().required(),
+    futureContact: Yup.string(),
   })
   const {
     register,
@@ -29,11 +29,7 @@ export const ContactForm = ({ closeModal }: ContactFormProps) => {
 
   const onSubmit = (data: ContactFormValues) => {
     console.log(JSON.stringify(data, null, 2))
-    handleReset()
-  }
-  const handleReset = () => {
     reset()
-    closeModal()
   }
 
   return (
@@ -69,6 +65,25 @@ export const ContactForm = ({ closeModal }: ContactFormProps) => {
           className={`${errors.email ? "is-invalid" : ""}`}
         />
         <div className="invalid-feedback">{errors.email?.message}</div>
+      </div>
+      <div>
+        <input type="checkbox" {...register("permission")} className="mr-2" />
+        <label className="text-sm">
+          <b>Yes,</b> I give 881 Abbot Kinney Project permission to send this
+          letter on you behalf.
+        </label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          {...register("futureContact")}
+          className="mr-2"
+        />
+        <label className="text-sm">
+          <b>Yes,</b> I would like to be contacted in the future about upcoming
+          hearings, alerts, events, and more about the 881 Abbot Kinney Project
+          via email and/or SMS.
+        </label>
       </div>
       <div className="flex flex-row gap-4">
         <input className="btn-primary basis-1/2" type="submit" />

@@ -1,5 +1,8 @@
 import logo from "../assets/logo-green-ivory-black.webp"
 import Editor from "./letterEditor"
+import { LetterForm } from "./letterForm"
+import hotelRender from "../assets/hotel-render.png"
+import { Footer } from "./footer"
 
 const Letter = () => {
   return (
@@ -21,7 +24,12 @@ const Letter = () => {
         </div>
         <div className="m-10">
           <Editor />
+          <LetterForm />
         </div>
+        <div>
+          <img src={hotelRender} alt="abbot kinney hotel render" />
+        </div>
+        <Footer />
       </div>
     </div>
   )
