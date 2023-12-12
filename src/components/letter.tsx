@@ -1,4 +1,5 @@
 import logo from "../assets/logo-green-ivory-black.webp"
+import Editor from "./letterEditor"
 
 const Letter = () => {
   return (
@@ -17,6 +18,9 @@ const Letter = () => {
             Below you’ll find the complete text of the support letter. You can
             sign by entering your name below and then use the submit button.
           </p>
+        </div>
+        <div className="m-10">
+          <Editor />
         </div>
       </div>
     </div>
