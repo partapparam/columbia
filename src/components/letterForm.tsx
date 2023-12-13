@@ -45,7 +45,7 @@ export const LetterForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="text-black flex flex-col gap-y-4 w-full"
     >
-      <div className="text-black">
+      <div>
         <input
           type="text"
           id="firstName"
@@ -54,32 +54,34 @@ export const LetterForm = () => {
             errors.firstName ? "is-invalid border-red-500" : ""
           }`}
           placeholder="First Name"
-          //   placeholder={`${
-          //     touchedFields["firstName"] == true
-          //       ? "First Name"
-          //       : errors.firstName?.message
-          //   }`}
         />
-        <div className="invalid-feedback">{errors.firstName?.message}</div>
+        <div className="text-red-500 font-mono">
+          {errors.firstName?.message}
+        </div>
       </div>
-      <div className="text-black">
-        <label>Last Name</label>
+      <div>
         <input
           type="text"
           id="lastName"
           {...register("lastName")}
-          className={`${errors.lastName ? "is-invalid" : ""}`}
+          className={`w-full border-b py-4 px-2 border-green-950 bg-transparent ${
+            errors.lastName ? "is-invalid border-red-500" : ""
+          }`}
+          placeholder="Last Name"
         />
-        <div className="invalid-feedback">{errors.lastName?.message}</div>
+        <div className="text-red-500 font-mono">{errors.lastName?.message}</div>
       </div>
-      <div className="">
-        <label>Email</label>
+      <div>
         <input
           type="text"
+          id="email"
           {...register("email")}
-          className={`${errors.email ? "is-invalid" : ""}`}
+          className={`w-full border-b py-4 px-2 border-green-950 bg-transparent ${
+            errors.lastName ? "is-invalid border-red-500" : ""
+          }`}
+          placeholder="Email"
         />
-        <div className="invalid-feedback">{errors.email?.message}</div>
+        <div className="text-red-500 font-mono">{errors.email?.message}</div>
       </div>
       <div>
         <input type="checkbox" {...register("permission")} className="mr-2" />
