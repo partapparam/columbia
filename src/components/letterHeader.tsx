@@ -1,7 +1,7 @@
 export const LetterHeader = () => {
   return (
     <>
-      <div className="bg-[#e8e8e8] p-5 sm:p-8 text-md font-serif">
+      <div className="bg-[#e8e8e8] p-8 sm:p-10 text-md font-serif">
         Ms. Juliet Oh
         <br />
         Senior City Planner

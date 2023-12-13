@@ -1,12 +1,12 @@
-import ReactQuill, { Quill } from "react-quill"
+import ReactQuill from "react-quill"
 import "react-quill/dist/quill.bubble.css"
 import { useState } from "react"
-import LETTER from "../constants/letter"
 import { LetterHeader } from "./letterHeader"
 import { LetterFooter } from "./letterFooter"
+import { LETTERHTML } from "../constants/letter"
 
 const Editor = () => {
-  const [editorHtml, setEditorHtml] = useState(LETTER)
+  const [editorHtml, setEditorHtml] = useState(LETTERHTML)
   const [name, setName] = useState("Your Name")
 
   const editorModules = {
@@ -15,7 +15,8 @@ const Editor = () => {
 
   const handleChange = (html: string) => {
     setEditorHtml(html)
-    // console.log(editorHtml)
+    setName("name")
+    console.log(html)
   }
 
   return (

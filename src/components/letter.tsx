@@ -3,6 +3,7 @@ import Editor from "./editor"
 import { LetterForm } from "./letterForm"
 import hotelRender from "../assets/hotel-render.png"
 import { Footer } from "./footer"
+import hotel from "../assets/hotel-transparent.png"
 
 const Letter = () => {
   return (
@@ -30,7 +31,7 @@ const Letter = () => {
       </div>
       <div className="">
         <img
-          src={hotelRender}
+          src={hotel}
           alt="abbot kinney hotel render"
           className="object-fill w-full"
         />
