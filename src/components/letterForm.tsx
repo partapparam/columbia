@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import postForm from "../services/formService"
+import { LetterContext } from "../providers/letterContext"
 
 type LetterFormValues = {
   firstName: string
@@ -11,11 +12,13 @@ type LetterFormValues = {
   email: string
   permission: boolean
   futureContact: boolean
+  letter?: string
 }
 
 export const LetterForm = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
+  const { getLetter } = useContext(LetterContext)
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("Please enter your first name"),
@@ -25,6 +28,7 @@ export const LetterForm = () => {
       .email("Email is invalid"),
     permission: Yup.bool().required().oneOf([true], "Please accept the terms."),
     futureContact: Yup.bool().required(),
+    letter: Yup.string(),
   })
 
   const {
@@ -45,7 +49,9 @@ export const LetterForm = () => {
   })
 
   const onSubmit = async (data: LetterFormValues) => {
+    const letter = await getLetter()
     try {
+      data.letter = letter
       const status = await postForm(data)
       if (status === 200) {
         navigate("/thank-you")
