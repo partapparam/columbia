@@ -1,14 +1,12 @@
 import logo from "../assets/logo-green-ivory-black.webp"
 import Editor from "./editor"
 import { LetterForm } from "./letterForm"
-import hotelRender from "../assets/hotel-render.png"
 import { Footer } from "./footer"
 import hotel from "../assets/hotel-transparent.png"
 
 const Letter = () => {
   return (
     <div className="flex flex-col bg-[#f9f5ef]">
-      {/* #f5eee5 is the image background hex */}
       <div className="w-5/6 sm:w-2/3 m-auto">
         <div className="min-h-48 mb-6 pt-16">
           <img src={logo} alt="" className="h-auto img-logo" />

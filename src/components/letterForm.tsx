@@ -1,43 +1,63 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
+import { useSearchParams } from "react-router-dom"
+import { useEffect } from "react"
 
 type LetterFormValues = {
   firstName: string
   lastName: string
   email: string
-  permission: string
-  futureContact: string
+  permission: boolean
+  futureContact?: boolean | undefined
 }
 
 export const LetterForm = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("Please enter your first name"),
     lastName: Yup.string().required("Please enter your last name"),
     email: Yup.string()
       .required("An email is required")
       .email("Email is invalid"),
-    permission: Yup.string().required(),
-    futureContact: Yup.string().required(),
+    permission: Yup.bool().required().oneOf([true], "Please accept the terms."),
+    futureContact: Yup.bool(),
   })
   const {
     register,
+    watch,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<LetterFormValues>({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      permission: false,
+      futureContact: false,
+    },
     resolver: yupResolver(validationSchema),
   })
 
   const onSubmit = (data: LetterFormValues) => {
     console.log(JSON.stringify(data, null, 2))
+    console.log(data)
+    setSearchParams({ first: data.firstName, last: data.lastName })
     reset()
   }
 
+  const watchLastName = watch("lastName", "")
+  const watchFirstName = watch("firstName", "")
+  useEffect(() => {
+    console.log("chagin name")
+    setSearchParams({ first: watchFirstName, last: watchLastName })
+  }, [watchFirstName, watchLastName])
+
   return (
     <div>
-      <div className="flex flex-col pt-8 pb-3 text-center">
-        <p className="text-xl text-[#2385A3]">You're ready to send.</p>
+      <div className="flex flex-col pt-10 pb-2 text-center">
+        <p className="text-2xl pb-1 text-[#2385A3]">You're ready to send.</p>
         <p>To send the above letter, please enter info below:</p>
       </div>
       <form
@@ -49,12 +69,12 @@ export const LetterForm = () => {
             type="text"
             id="firstName"
             {...register("firstName")}
-            className={`w-full border-b py-4 px-2 border-green-950 bg-transparent ${
+            className={`w-full py-4 px-2 focus:ring-emerald-800  bg-transparent ${
               errors.firstName ? "is-invalid border-red-500" : ""
             }`}
             placeholder="First Name"
           />
-          <div className="text-red-500 font-mono">
+          <div className="text-red-500 text-sm">
             {errors.firstName?.message}
           </div>
         </div>
@@ -63,32 +83,30 @@ export const LetterForm = () => {
             type="text"
             id="lastName"
             {...register("lastName")}
-            className={`w-full border-b py-4 px-2 border-green-950 bg-transparent ${
+            className={`w-full py-4 px-2 focus:ring-emerald-800  bg-transparent ${
               errors.lastName ? "is-invalid border-red-500" : ""
             }`}
             placeholder="Last Name"
           />
-          <div className="text-red-500 font-mono">
-            {errors.lastName?.message}
-          </div>
+          <div className="text-red-500 text-sm">{errors.lastName?.message}</div>
         </div>
         <div>
           <input
             type="text"
             id="email"
             {...register("email")}
-            className={`rounded-none w-full border-b py-4 px-2 border-green-950 bg-transparent ${
+            className={`rounded-none w-full py-4 px-2 focus:ring-emerald-800   bg-transparent ${
               errors.lastName ? "is-invalid border-red-500" : ""
             }`}
             placeholder="Email"
           />
-          <div className="text-red-500 font-mono">{errors.email?.message}</div>
+          <div className="text-red-500 text-sm">{errors.email?.message}</div>
         </div>
-        <div className="py-4">
+        <div className="py-4 flex flex-row gap-x-2 items-center">
           <input
             type="checkbox"
             {...register("permission")}
-            className="mr-2"
+            className="w-8 h-8 border-[#2385A3] rounded-none mr-2 text-[#A0A675]"
             name="permission"
           />
           <label htmlFor="permission" className="text-sm">
@@ -96,14 +114,14 @@ export const LetterForm = () => {
             letter on you behalf.
           </label>
         </div>
-        <div className="flex flex-row gap-x-1">
+        <div className="flex flex-row gap-x-2 items-center">
           <input
             type="checkbox"
             {...register("futureContact")}
-            className="w-12 h-12 border-black rounded-none"
-            name="future-contact"
+            className="w-8 h-8 border-[#2385A3] rounded-none mr-2 text-[#A0A675]"
+            name="futureContact"
           />
-          <label className="text-sm" htmlFor="future-contact">
+          <label className="text-sm" htmlFor="futureContact">
             <b>Yes,</b> I would like to be contacted in the future about
             upcoming hearings, alerts, events, and more about the 881 Abbot
             Kinney Project via email and/or SMS.
