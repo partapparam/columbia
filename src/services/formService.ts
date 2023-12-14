@@ -9,13 +9,12 @@ type NewContactData = {
   letter?: string
 }
 
-// example
-// https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_TABLE_ID_OR_NAME
-const URL = `${import.meta.env.VITE_AIRTABLE_URL}${
-  import.meta.env.VITE_AIRTABLE_BASE
-}/${import.meta.env.VITE_AIRTABLE_TABLE}`
-
 export const postForm = async (data: NewContactData) => {
+  // example
+  // https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_TABLE_ID_OR_NAME
+  const URL = `${import.meta.env.VITE_AIRTABLE_URL}${
+    import.meta.env.VITE_AIRTABLE_BASE
+  }/${import.meta.env.VITE_AIRTABLE_TABLE}`
   const body = {
     fields: data,
   }
@@ -36,43 +35,10 @@ export const postForm = async (data: NewContactData) => {
   }
 }
 
-export const getData = async () => {
+export const getTableData = async () => {
   const base = new Airtable({
     apiKey: import.meta.env.VITE_AIRTABLE_TOKEN,
   }).base("appWVlUc592csqgLS")
-  // const results = []
-  // base("columbia")
-  //   .select({
-  //     // Selecting the first 3 records in Grid view:
-  //     maxRecords: 3,
-  //     view: "Grid view",
-  //   })
-  //   .eachPage(
-  //     function page(records, fetchNextPage) {
-  //       // This function (`page`) will get called for each page of records.
-  //       // results.push(records)
-  //       records.forEach(function (record) {
-  //         results.push(record.fields)
-  //       })
-
-  //       // To fetch the next page of records, call `fetchNextPage`.
-  //       // If there are more records, `page` will get called again.
-  //       // If there are no more records, `done` will get called.
-  //       fetchNextPage()
-  //     },
-  //     function done(err) {
-  //       if (err) {
-  //         console.error(err)
-  //         return "there was an error"
-  //       }
-  //       console.log("done is being called")
-  //       console.log(results)
-  //       // console.log(records)
-  //       return results
-  //     }
-  //   )
-  // const results = await base("columbia").select().all()
-  // return results
 
   return new Promise((resolve, reject) => {
     const allCases = []
@@ -100,4 +66,4 @@ export const getData = async () => {
   })
 }
 
-export default { postForm, getData }
+export default { postForm, getTableData }
