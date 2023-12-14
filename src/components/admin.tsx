@@ -3,10 +3,10 @@ import { getData } from "../services/formService"
 
 const Admin = () => {
   const [data, setData] = useState([])
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await getData()
-      console.log(response)
       setData(response)
     }
     fetchData()
@@ -14,13 +14,16 @@ const Admin = () => {
 
   return (
     <div>
-      {/* {data &&
+      {data &&
         data.map((record) => {
-          ;<div>
-            <p>record.firstName</p>
-            <p>record.lastName</p>
-          </div>
-        })} */}
+          return (
+            <div>
+              <p>{record.firstName}</p>
+              <p>{record.lastName}</p>
+              <p>{record.letter}</p>
+            </div>
+          )
+        })}
     </div>
   )
 }
