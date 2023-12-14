@@ -12,12 +12,12 @@ const Letter = () => {
           <img src={logo} alt="" className="h-auto img-logo" />
         </div>
         <div className="mb-7 text-[#2385A3]">
-          <h1 className="text-5xl sm:text-6xl">
+          <h1 className="text-5xl sm:text-6xl font-light">
             <span className="font-extrabold">Send </span>the letter
           </h1>
         </div>
         <div className="container form ">
-          <p className="text-justify whitespace-normal leading-">
+          <p className="text-justify whitespace-normal leading-2 pb-5">
             Below you’ll find the complete text of the support letter. You can
             sign by entering your name below and then use the submit button.
           </p>

@@ -20,7 +20,7 @@ const Editor = () => {
   }
 
   return (
-    <div className="flex flex-col bg-white border-4 border-[#f5eee5]">
+    <div className="flex flex-col bg-white border-8 border-[#f5eee5]">
       <LetterHeader />
       <ReactQuill
         value={editorHtml}
@@ -28,7 +28,7 @@ const Editor = () => {
         modules={editorModules}
         theme="bubble"
       />
-      <LetterFooter name={name} />
+      <LetterFooter />
     </div>
   )
 }

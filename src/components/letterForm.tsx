@@ -43,14 +43,12 @@ export const LetterForm = () => {
   const onSubmit = (data: LetterFormValues) => {
     console.log(JSON.stringify(data, null, 2))
     console.log(data)
-    setSearchParams({ first: data.firstName, last: data.lastName })
     reset()
   }
 
   const watchLastName = watch("lastName", "")
   const watchFirstName = watch("firstName", "")
   useEffect(() => {
-    console.log("chagin name")
     setSearchParams({ first: watchFirstName, last: watchLastName })
   }, [watchFirstName, watchLastName])
 
