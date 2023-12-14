@@ -7,7 +7,6 @@ import { LETTERHTML } from "../constants/letter"
 
 const Editor = () => {
   const [editorHtml, setEditorHtml] = useState(LETTERHTML)
-  const [name, setName] = useState("Your Name")
 
   const editorModules = {
     toolbar: false,
@@ -15,7 +14,6 @@ const Editor = () => {
 
   const handleChange = (html: string) => {
     setEditorHtml(html)
-    setName("name")
     // console.log(html)
   }
 

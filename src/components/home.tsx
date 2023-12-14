@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import logo from "../assets/abbot-kinney-logo-olive-2x-white.webp"
 
 const Home = () => {

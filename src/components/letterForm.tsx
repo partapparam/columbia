@@ -16,6 +16,7 @@ type LetterFormValues = {
 export const LetterForm = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
+
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("Please enter your first name"),
     lastName: Yup.string().required("Please enter your last name"),
@@ -25,6 +26,7 @@ export const LetterForm = () => {
     permission: Yup.bool().required().oneOf([true], "Please accept the terms."),
     futureContact: Yup.bool().required(),
   })
+
   const {
     register,
     watch,
@@ -64,6 +66,7 @@ export const LetterForm = () => {
   const watchLastName = watch("lastName", "")
   const watchFirstName = watch("firstName", "")
   useEffect(() => {
+    searchParams
     setSearchParams({ first: watchFirstName, last: watchLastName })
   }, [watchFirstName, watchLastName])
 
