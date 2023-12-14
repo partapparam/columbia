@@ -1,7 +1,7 @@
 export const LETTERHTML = `
 <html>
     <div>
-        <h3>I am writing to express my strong support for the 881 Abbot
+        <p>I am writing to express my strong support for the 881 Abbot
 Kinney mixed-use project, a significant investment that will help meet the
 unmet demand for more hospitality services to Venice visitors.<br><br>
 Venice is a diverse community whose eclectic nature continues to play a
@@ -24,7 +24,7 @@ property owners and community leaders and has adhered to City requirements
 throughout the planning and construction process.<br><br>
 I look forward to seeing the project completed and encourage the City to 
 support it.
-        </h3>
+        </p>
     </div>
 
 </html>`
