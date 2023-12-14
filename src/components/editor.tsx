@@ -16,7 +16,7 @@ const Editor = () => {
   const handleChange = (html: string) => {
     setEditorHtml(html)
     setName("name")
-    console.log(html)
+    // console.log(html)
   }
 
   return (

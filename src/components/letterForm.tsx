@@ -1,19 +1,21 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { useEffect } from "react"
+import postForm from "../services/formService"
 
 type LetterFormValues = {
   firstName: string
   lastName: string
   email: string
   permission: boolean
-  futureContact?: boolean | undefined
+  futureContact: boolean
 }
 
 export const LetterForm = () => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("Please enter your first name"),
     lastName: Yup.string().required("Please enter your last name"),
@@ -21,7 +23,7 @@ export const LetterForm = () => {
       .required("An email is required")
       .email("Email is invalid"),
     permission: Yup.bool().required().oneOf([true], "Please accept the terms."),
-    futureContact: Yup.bool(),
+    futureContact: Yup.bool().required(),
   })
   const {
     register,
@@ -40,10 +42,23 @@ export const LetterForm = () => {
     resolver: yupResolver(validationSchema),
   })
 
-  const onSubmit = (data: LetterFormValues) => {
-    console.log(JSON.stringify(data, null, 2))
-    console.log(data)
-    reset()
+  const onSubmit = async (data: LetterFormValues) => {
+    try {
+      const status = await postForm(data)
+      if (status === 200) {
+        navigate("/thank-you")
+      } else {
+        throw Error("Please resubmit.")
+      }
+    } catch (error) {
+      console.log("we had an error")
+      // This will allow us to handle the error message and please Typescript
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    } finally {
+      reset()
+    }
   }
 
   const watchLastName = watch("lastName", "")

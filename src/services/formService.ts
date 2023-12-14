@@ -1,9 +1,9 @@
 export type NewContactData = {
-  fullname: string
+  firstName: string
+  lastName: string
   email: string
-  phone?: string | undefined
-  company: string
-  message: string
+  permission: boolean
+  futureContact: boolean
 }
 export type SavedContactData = {
   id: number
@@ -29,6 +29,7 @@ const postForm = async (data: NewContactData) => {
   try {
     const response = await fetch(URL, requestOptions)
     console.log(response)
+    return response.status
   } catch (error) {
     console.log(error)
   }
