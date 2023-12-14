@@ -1,4 +1,4 @@
-import React, { useState, createContext, ReactNode } from "react"
+import { useState, createContext, ReactNode } from "react"
 
 interface Props {
   children?: ReactNode
@@ -7,7 +7,6 @@ interface Props {
 interface LetterContextType {
   updateLetter: (letterString: string) => void
   getLetter: () => string
-  letter?: string
 }
 
 export const LetterContext = createContext({} as LetterContextType)

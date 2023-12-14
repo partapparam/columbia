@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { useContext, useEffect } from "react"
-import postForm from "../services/formService"
+import { postForm } from "../services/formService"
 import { LetterContext } from "../providers/letterContext"
 
 type LetterFormValues = {
