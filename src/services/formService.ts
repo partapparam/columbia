@@ -18,6 +18,7 @@ export const postForm = async (data: NewContactData) => {
   const body = {
     fields: data,
   }
+  console.log(data)
   const requestOptions = {
     method: "POST",
     headers: {

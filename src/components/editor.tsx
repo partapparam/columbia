@@ -5,7 +5,6 @@ import { LetterHeader } from "./letterHeader"
 import { LetterFooter } from "./letterFooter"
 import { LETTERHTML } from "../constants/letter"
 import { LetterContext } from "../providers/letterContext"
-import { pdfExporter } from "quill-to-pdf"
 
 const Editor = () => {
   const [editorHtml, setEditorHtml] = useState(LETTERHTML)
@@ -16,11 +15,14 @@ const Editor = () => {
   }
 
   const handleChange = async (content, delta, source, editor) => {
-    // const delta = setEditorHtml(delta)
-    console.log(content, delta, editor, source)
-    const blob = await pdfExporter.generatePdf(delta)
-    console.log(blob)
-    // updateLetter(html)
+    // setEditorHtml(editor.getContents())
+    // console.log(editor)
+    // console.log(delta)
+    // console.log(JSON.stringify(editor.getHTML()))
+    // const blob = await pdfExporter.generatePdf(delta)
+    // console.log(blob)
+    const j = JSON.stringify(delta)
+    updateLetter(j)
     // console.log(html)
   }
 

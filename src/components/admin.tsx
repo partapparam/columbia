@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { getTableData } from "../services/formService"
-import html2canvas from "html2canvas"
-import { jsPDF } from "jspdf"
-import parse from "html-react-parser"
+import { pdfExporter } from "quill-to-pdf"
+import { saveAs } from "file-saver"
 import ReactPDF, {
   Page,
   Text,
@@ -13,7 +12,6 @@ import ReactPDF, {
 
 const Admin = () => {
   const [data, setData] = useState([])
-  const currentRef = useRef(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,31 +22,11 @@ const Admin = () => {
     fetchData()
   }, [])
 
-  const MyDocument = (record) => (
-    <Document>
-      <Page size="A4">
-        <View>
-          <Text>{record}</Text>
-        </View>
-      </Page>
-    </Document>
-  )
-
   const handleDownload = async (record) => {
-    // const element = record.letter
-    // const canvas = await html2canvas(element)
-    // const data = canvas.toDataURL("image/png")
-    // console.log(record.letter)
-    const document = MyDocument(record.letter)
-    // const html = parse(record.letter)
-    // console.log(html)
-    // const doc = new jsPDF({
-    //   orientation: "landscape",
-    //   unit: "in",
-    //   format: [4, 2],
-    // })
-
-    ReactPDF.renderToFile(document, `$../assets/example.pdf`)
+    const delta = JSON.parse(record.letter)
+    const blob = await pdfExporter.generatePdf(delta)
+    console.log(blob)
+    saveAs(blob, "pdf-export.pdf") // downloads from the browser
   }
 
   return (
