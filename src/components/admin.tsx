@@ -20,6 +20,15 @@ interface Config {
   }
 }
 
+const QUILLCONFIG: Config = {
+  styles: {
+    normal: {
+      font: "Times-Roman",
+      fontSize: 10,
+    },
+  },
+}
+
 const Admin = () => {
   const [data, setData] = useState([])
 
@@ -32,15 +41,6 @@ const Admin = () => {
     fetchData()
   }, [])
 
-  const config: Config = {
-    styles: {
-      normal: {
-        font: "Times-Roman",
-        fontSize: 10,
-      },
-    },
-  }
-
   const handleDownload = async (record) => {
     const delta = JSON.parse(record.letter)
     const nameString = `${record.firstName} ${record.lastName}`
@@ -50,34 +50,37 @@ const Admin = () => {
       .insert(delta)
       .insert("\nSincerely,\n")
       .insert(nameString, { italic: true })
-    const blob = await pdfExporter.generatePdf(d, config)
-    console.log(blob)
-    return blob
-    // saveAs(blob, "pdf-export.pdf") // downloads from the browser
+    const blob = await pdfExporter.generatePdf(d, QUILLCONFIG)
+    // const reader = new FileReader()
+    // reader.readAsDataURL(blob)
+    // reader.onload = function () {
+    //   console.log(reader.result)
+    // }
+    saveAs(blob, `${record.firstName}_${record.lastName}_letter.pdf`) // downloads from the browser
   }
 
   const buildBlob = async (parts) => {
     console.log("the parts = ", parts)
-    const blobBuilder = new Blob(parts, { type: "application/pdf" }) // create
+    const blobBuilder = new Blob(parts, {
+      type: "application/pdf",
+    }) // create
     return blobBuilder
   }
 
   const getBlobs = async (data) => {
-    const parts = []
+    const blobs = []
     for (const record of data) {
       const blob = await handleDownload(record)
-      parts.push(blob)
+      blobs.push(blob)
     }
-    console.log(parts)
-    return parts
+    console.log(blobs)
+    return blobs
   }
 
   const saveAll = async () => {
-    const parts = await getBlobs(data)
-    console.log("Parts is returned")
-    const blobBuilder = await buildBlob(parts) // create
-    console.log(blobBuilder)
-    saveAs(blobBuilder, "pdffor881.pdf") // downloads from the browser
+    for (const record of data) {
+      await handleDownload(record)
+    }
   }
 
   return (
