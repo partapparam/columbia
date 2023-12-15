@@ -1,14 +1,9 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import { getTableData } from "../services/formService"
 import { pdfExporter } from "quill-to-pdf"
 import { saveAs } from "file-saver"
-import ReactPDF, {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-} from "@react-pdf/renderer"
+import Delta from "quill-delta"
+import { HEADERHTML } from "../constants/letter"
 
 const Admin = () => {
   const [data, setData] = useState([])
@@ -24,8 +19,14 @@ const Admin = () => {
 
   const handleDownload = async (record) => {
     const delta = JSON.parse(record.letter)
-    const blob = await pdfExporter.generatePdf(delta)
-    console.log(blob)
+    const nameString = `${record.firstName} ${record.lastName}`
+    const d = new Delta()
+      .insert(HEADERHTML)
+      .insert("\n")
+      .insert(delta)
+      .insert("\nSincerely,\n")
+      .insert(nameString, { italic: true })
+    const blob = await pdfExporter.generatePdf(d)
     saveAs(blob, "pdf-export.pdf") // downloads from the browser
   }
 

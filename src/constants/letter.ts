@@ -1,6 +1,4 @@
 export const LETTERHTML = `
-<html>
-    <div>
         <p>I am writing to express my strong support for the 881 Abbot
 Kinney mixed-use project, a significant investment that will help meet the
 unmet demand for more hospitality services to Venice visitors.<br><br>
@@ -24,7 +22,13 @@ property owners and community leaders and has adhered to City requirements
 throughout the planning and construction process.<br><br>
 I look forward to seeing the project completed and encourage the City to 
 support it.
-        </p>
-    </div>
+        </p>`
 
-</html>`
+export const HEADERHTML = `
+Ms. Juliet Oh
+Senior City Planner
+City of Los Angeles Planning Department
+200 North Spring Street
+Los Angeles, CA 90012-2601
+Juliet.oh@lacity.org
+Dear Juliet Oh:`

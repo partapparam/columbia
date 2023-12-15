@@ -3,27 +3,25 @@ import "react-quill/dist/quill.bubble.css"
 import { useContext, useState } from "react"
 import { LetterHeader } from "./letterHeader"
 import { LetterFooter } from "./letterFooter"
-import { LETTERHTML } from "../constants/letter"
+import { LETTERHTML, HEADERHTML } from "../constants/letter"
 import { LetterContext } from "../providers/letterContext"
+import Delta from "quill-delta"
+import { useSearchParams } from "react-router-dom"
 
 const Editor = () => {
   const [editorHtml, setEditorHtml] = useState(LETTERHTML)
   const { updateLetter } = useContext(LetterContext)
+  const [searchParams] = useSearchParams()
 
   const editorModules = {
     toolbar: false,
   }
 
   const handleChange = async (content, delta, source, editor) => {
-    // setEditorHtml(editor.getContents())
-    // console.log(editor)
-    // console.log(delta)
-    // console.log(JSON.stringify(editor.getHTML()))
-    // const blob = await pdfExporter.generatePdf(delta)
-    // console.log(blob)
-    const j = JSON.stringify(delta)
-    updateLetter(j)
-    // console.log(html)
+    setEditorHtml(content)
+    const text = editor.getText()
+    const jsonText = JSON.stringify(text)
+    updateLetter(jsonText)
   }
 
   return (
