@@ -56,16 +56,28 @@ const Admin = () => {
     // saveAs(blob, "pdf-export.pdf") // downloads from the browser
   }
 
-  const saveAll = async () => {
-    const parts: Blob[] = []
-    data.forEach(async (record) => {
-      const blob = await handleDownload(record)
-      console.log("THis is the blob = ", blob)
-      parts.push(blob)
-    })
+  const buildBlob = async (parts) => {
+    console.log("the parts = ", parts)
     const blobBuilder = new Blob(parts, { type: "application/pdf" }) // create
+    return blobBuilder
+  }
+
+  const getBlobs = async (data) => {
+    const parts = []
+    for (const record of data) {
+      const blob = await handleDownload(record)
+      parts.push(blob)
+    }
+    console.log(parts)
+    return parts
+  }
+
+  const saveAll = async () => {
+    const parts = await getBlobs(data)
+    console.log("Parts is returned")
+    const blobBuilder = await buildBlob(parts) // create
     console.log(blobBuilder)
-    // saveAs(blobBuilder, "pdf-export.pdf") // downloads from the browser
+    saveAs(blobBuilder, "pdffor881.pdf") // downloads from the browser
   }
 
   return (
