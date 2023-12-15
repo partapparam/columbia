@@ -59,24 +59,6 @@ const Admin = () => {
     saveAs(blob, `${record.firstName}_${record.lastName}_letter.pdf`) // downloads from the browser
   }
 
-  const buildBlob = async (parts) => {
-    console.log("the parts = ", parts)
-    const blobBuilder = new Blob(parts, {
-      type: "application/pdf",
-    }) // create
-    return blobBuilder
-  }
-
-  const getBlobs = async (data) => {
-    const blobs = []
-    for (const record of data) {
-      const blob = await handleDownload(record)
-      blobs.push(blob)
-    }
-    console.log(blobs)
-    return blobs
-  }
-
   const saveAll = async () => {
     for (const record of data) {
       await handleDownload(record)
