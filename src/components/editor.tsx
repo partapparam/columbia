@@ -3,15 +3,12 @@ import "react-quill/dist/quill.bubble.css"
 import { useContext, useState } from "react"
 import { LetterHeader } from "./letterHeader"
 import { LetterFooter } from "./letterFooter"
-import { LETTERHTML, HEADERHTML } from "../constants/letter"
+import { LETTERHTML } from "../constants/letter"
 import { LetterContext } from "../providers/letterContext"
-import Delta from "quill-delta"
-import { useSearchParams } from "react-router-dom"
 
 const Editor = () => {
   const [editorHtml, setEditorHtml] = useState(LETTERHTML)
   const { updateLetter } = useContext(LetterContext)
-  const [searchParams] = useSearchParams()
 
   const editorModules = {
     toolbar: false,

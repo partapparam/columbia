@@ -5,6 +5,21 @@ import { saveAs } from "file-saver"
 import Delta from "quill-delta"
 import { HEADERHTML } from "../constants/letter"
 
+interface Config {
+  styles: {
+    normal?: {
+      font?: string
+      fontSize?: number // specified in points
+      baseIndent?: number // specified in points w/ 72 ppi
+      levelIndent?: number // only used for lists
+      indent?: {
+        left?: number
+        right?: number
+      }
+    }
+  }
+}
+
 const Admin = () => {
   const [data, setData] = useState([])
 
@@ -17,6 +32,15 @@ const Admin = () => {
     fetchData()
   }, [])
 
+  const config: Config = {
+    styles: {
+      normal: {
+        font: "Times-Roman",
+        fontSize: 10,
+      },
+    },
+  }
+
   const handleDownload = async (record) => {
     const delta = JSON.parse(record.letter)
     const nameString = `${record.firstName} ${record.lastName}`
@@ -26,12 +50,29 @@ const Admin = () => {
       .insert(delta)
       .insert("\nSincerely,\n")
       .insert(nameString, { italic: true })
-    const blob = await pdfExporter.generatePdf(d)
-    saveAs(blob, "pdf-export.pdf") // downloads from the browser
+    const blob = await pdfExporter.generatePdf(d, config)
+    console.log(blob)
+    return blob
+    // saveAs(blob, "pdf-export.pdf") // downloads from the browser
+  }
+
+  const saveAll = async () => {
+    const parts: Blob[] = []
+    data.forEach(async (record) => {
+      const blob = await handleDownload(record)
+      console.log("THis is the blob = ", blob)
+      parts.push(blob)
+    })
+    const blobBuilder = new Blob(parts, { type: "application/pdf" }) // create
+    console.log(blobBuilder)
+    // saveAs(blobBuilder, "pdf-export.pdf") // downloads from the browser
   }
 
   return (
     <div>
+      <div className="flex justify-right">
+        <button onClick={saveAll}>Save All Pdfs</button>
+      </div>
       <table className="table-auto p-10 ">
         <thead>
           <tr>
