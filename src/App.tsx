@@ -6,6 +6,7 @@ import "./App.css"
 import { LetterProvider } from "./providers/letterContext"
 import AdminTable from "./components/adminTable"
 import AdminEditor from "./components/adminEditor"
+import AdminLogin from "./components/adminLogin"
 
 const App = () => {
   return (
@@ -14,8 +15,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Letter />} />
           <Route path="/thank-you" element={<Home />} />
+          <Route path="/login" element={<AdminLogin />} />
           <Route path="/admin" element={<Admin />}>
-            <Route path="editor/letter" element={<AdminEditor />} />
+            <Route path="editor/:type" element={<AdminEditor />} />
             <Route index element={<AdminTable />} />
           </Route>
         </Routes>
