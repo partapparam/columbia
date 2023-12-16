@@ -5,6 +5,7 @@ import Admin from "./components/admin"
 import "./App.css"
 import { LetterProvider } from "./providers/letterContext"
 import AdminTable from "./components/adminTable"
+import AdminEditor from "./components/adminEditor"
 
 const App = () => {
   return (
