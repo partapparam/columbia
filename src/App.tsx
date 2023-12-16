@@ -4,6 +4,7 @@ import Letter from "./components/letter"
 import Admin from "./components/admin"
 import "./App.css"
 import { LetterProvider } from "./providers/letterContext"
+import AdminTable from "./components/adminTable"
 
 const App = () => {
   return (
@@ -12,7 +13,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Letter />} />
           <Route path="/thank-you" element={<Home />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<Admin />}>
+            <Route path="editor/letter" element={<AdminEditor />} />
+            <Route index element={<AdminTable />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </LetterProvider>
