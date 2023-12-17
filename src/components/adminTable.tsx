@@ -70,14 +70,14 @@ const AdminTable = () => {
       const blob = await handleDownload(record)
       blobs.push(blob)
     }
-    const result = await Merger(blobs)
+    await Merger(blobs)
   }
 
   return (
-    <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg p-5">
-      <div className="flex items-right">
+    <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg">
+      <div className="flex">
         <button
-          className="bg-blue-400 px-4 py-2 my-2 text-white shadow-md"
+          className="bg-blue-500 hover:bg-blue-600 px-4 py-2 my-4 text-white shadow-md rounded-md "
           onClick={saveAll}
         >
           Download All
@@ -86,34 +86,34 @@ const AdminTable = () => {
       <table className="table-auto w-full text-sm text-left rtl:text-right text-gray-500 ">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
-            <th className="px-6 py-3">Name</th>
-            <th className="px-6 py-3">Email</th>
-            <th className="px-6 py-3">Permission</th>
-            <th className="px-6 py-3">Future Contact</th>
-            <th className="px-6 py-3"></th>
+            <th className="px-2 py-3">Name</th>
+            <th className="px-2 py-3">Email</th>
+            <th className="px-2 py-3 text-center">Permission</th>
+            <th className="px-2 py-3 text-center">Future Contact</th>
+            <th className="px-2 py-3"></th>
           </tr>
         </thead>
         <tbody>
           {data &&
             data.map((record) => {
               return (
-                <tr key={record.id} className="border-b">
-                  <td className="px-6 py-4 ">
+                <tr key={record.id} className="border-b hover:bg-slate-50">
+                  <td className="px-2 py-2 ">
                     {record?.firstName} {record?.lastName}
                   </td>
-                  <td className="px-6 py-4 ">{record.email}</td>
-                  <td className="px-6 py-4 ">
+                  <td className="px-2 py-2 ">{record.email}</td>
+                  <td className="px-2 py-2 text-center ">
                     {record.permission ? "Yes" : "No"}
                   </td>
-                  <td className="px-6 py-4 ">
+                  <td className="px-2 py-2 text-center">
                     {record.futureContact ? "Yes" : "No"}
                   </td>
-                  <td className="px-6 py-4 ">
+                  <td className="px-2 py-2 ">
                     <button
-                      className="p-4 bg-red-400"
+                      className="px-4 py-2 bg-white hover:bg-slate-100 border-2 border-black rounded-md text-black"
                       onClick={() => saveOne(record)}
                     >
-                      Download Pdf
+                      Download
                     </button>
                   </td>
                 </tr>
