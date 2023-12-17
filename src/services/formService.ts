@@ -78,6 +78,28 @@ export const getLetterContent = async () => {
       function (err, record) {
         if (err) {
           console.error(err)
+          reject(err)
+          return
+        }
+        console.log("Retrieved", record.fields)
+        resolve(record.fields)
+      }
+    )
+  })
+}
+
+export const getHeaderContent = async () => {
+  const base = new Airtable({
+    apiKey: import.meta.env.VITE_AIRTABLE_TOKEN,
+  }).base(import.meta.env.VITE_AIRTABLE_BASE)
+
+  return new Promise((resolve, reject) => {
+    base(import.meta.env.VITE_AIRTABLE_NAME_EDITOR).find(
+      import.meta.env.VITE_AIRTABLE_EDITOR_HEADER_ID,
+      function (err, record) {
+        if (err) {
+          console.error(err)
+          reject(err)
           return
         }
         console.log("Retrieved", record.fields)
