@@ -14,7 +14,7 @@ export const postForm = async (data: NewContactData) => {
   // https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_TABLE_ID_OR_NAME
   const URL = `${import.meta.env.VITE_AIRTABLE_URL}${
     import.meta.env.VITE_AIRTABLE_BASE
-  }/${import.meta.env.VITE_AIRTABLE_TABLE}`
+  }/${import.meta.env.VITE_AIRTABLE_TABLE_LETTERS}`
   const body = {
     fields: data,
   }
@@ -34,6 +34,39 @@ export const postForm = async (data: NewContactData) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+export const updateLetterContent = async (data) => {
+  // data will be an array of objects
+  // const data = [
+  //   {
+  //     id: "",
+  //     fields: {
+  //       type: "",
+  //       content: "",
+  //     },
+  //   },
+  // ]
+  const base = new Airtable({
+    apiKey: import.meta.env.VITE_AIRTABLE_TOKEN,
+  }).base(import.meta.env.VITE_AIRTABLE_BASE)
+
+  return new Promise((resolve, reject) => {
+    base(import.meta.env.VITE_AIRTABLE_NAME_EDITOR).update(
+      data,
+      function (err, records) {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        }
+        records.forEach(function (record) {
+          console.log(record.get("type"))
+        })
+        resolve(records)
+      }
+    )
+  })
 }
 
 export const getTableData = async () => {
@@ -109,4 +142,10 @@ export const getHeaderContent = async () => {
   })
 }
 
-export default { postForm, getTableData, getLetterContent }
+export default {
+  postForm,
+  getTableData,
+  getLetterContent,
+  getHeaderContent,
+  updateLetterContent,
+}
