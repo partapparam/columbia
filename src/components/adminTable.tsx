@@ -4,6 +4,7 @@ import { pdfExporter } from "quill-to-pdf"
 import { saveAs } from "file-saver"
 import Delta from "quill-delta"
 import { HEADERHTML } from "../constants/letter"
+import Merger from "../services/fileMerger"
 
 interface Config {
   styles: {
@@ -35,13 +36,12 @@ const AdminTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getTableData()
-      console.log(response)
       setData(response)
     }
     fetchData()
   }, [])
 
-  const handleDownload = async (record) => {
+  const handleDownload = async (record: object) => {
     const delta = JSON.parse(record.letter)
     const nameString = `${record.firstName} ${record.lastName}`
     const d = new Delta()
@@ -56,14 +56,20 @@ const AdminTable = () => {
     // reader.onload = function () {
     //   console.log(reader.result)
     // }
-    saveAs(blob, `${record.firstName}_${record.lastName}_letter.pdf`)
+    return blob
+    // saveAs(blob, `${record.firstName}_${record.lastName}_letter.pdf`)
     // downloads from the browser
   }
 
   const saveAll = async () => {
+    const blobs = []
     for (const record of data) {
-      await handleDownload(record)
+      const blob = await handleDownload(record)
+      blobs.push(blob)
     }
+    const result = await Merger(blobs)
+    console.log(result)
+    console.log(blobs)
   }
 
   return (
