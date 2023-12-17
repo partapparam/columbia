@@ -4,7 +4,7 @@ import { pdfExporter } from "quill-to-pdf"
 import { saveAs } from "file-saver"
 import Delta from "quill-delta"
 import { HEADERHTML } from "../constants/letter"
-import Merger from "../services/fileMerger"
+import Merger from "../services/fileMergerService"
 
 interface Config {
   styles: {
@@ -57,8 +57,11 @@ const AdminTable = () => {
     //   console.log(reader.result)
     // }
     return blob
-    // saveAs(blob, `${record.firstName}_${record.lastName}_letter.pdf`)
-    // downloads from the browser
+  }
+
+  const saveOne = async (record) => {
+    const blob = await handleDownload(record)
+    saveAs(blob, `${record.firstName}_${record.lastName}_letter.pdf`)
   }
 
   const saveAll = async () => {
@@ -68,8 +71,6 @@ const AdminTable = () => {
       blobs.push(blob)
     }
     const result = await Merger(blobs)
-    console.log(result)
-    console.log(blobs)
   }
 
   return (
@@ -110,7 +111,7 @@ const AdminTable = () => {
                   <td className="px-6 py-4 ">
                     <button
                       className="p-4 bg-red-400"
-                      onClick={() => handleDownload(record)}
+                      onClick={() => saveOne(record)}
                     >
                       Download Pdf
                     </button>
