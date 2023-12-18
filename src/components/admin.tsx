@@ -1,9 +1,15 @@
 import { Outlet, Link } from "react-router-dom"
 
 const LINKS = [
-  { link: "/", title: "Submissions" },
-  { link: "editor/letter", title: "Edit Letter" },
-  { link: "editor/header", title: "Edit Header" },
+  { link: "", title: "Submissions" },
+  {
+    link: `editor/letter/${import.meta.env.VITE_AIRTABLE_EDITOR_LETTER_ID}`,
+    title: "Edit Letter",
+  },
+  {
+    link: `editor/header/${import.meta.env.VITE_AIRTABLE_EDITOR_HEADER_ID}`,
+    title: "Edit Header",
+  },
 ]
 
 const Admin = () => {
