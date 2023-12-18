@@ -6,22 +6,23 @@ import {
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.bubble.css"
 import { useParams } from "react-router-dom"
+import { LoadingSpinner } from "./loading"
 
 const AdminEditor = () => {
   const [letter, setLetter] = useState()
   const { type, id } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
 
-  // const [type, setType] = useState()
-  // const [queryType, setQueryType] = useState(useParams("type"))
   useEffect(() => {
     const fetchContent = async (id: string) => {
+      setIsLoading(true)
       const result = await getAdminEditorContent(id)
-      // console.log(result)
       setLetter(JSON.parse(result.content))
-      // setType(result.type)
     }
     if (type && id) {
-      fetchContent(id).catch((err) => console.log(err))
+      fetchContent(id)
+        .catch((err) => console.log(err))
+        .finally(() => setIsLoading(false))
     }
   }, [type, id])
 
@@ -31,11 +32,10 @@ const AdminEditor = () => {
 
   const handleChange = (content) => {
     setLetter(content)
-    // const text = editor.getText()
-    // console.log(text)
   }
 
   const submitChanges = async () => {
+    setIsLoading(true)
     const jsonContent = JSON.stringify(letter)
     const data = [
       {
@@ -48,12 +48,14 @@ const AdminEditor = () => {
     ]
 
     await updateLetterContent(data)
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false))
   }
 
   return (
     <div className="mx-5 md:mx-15 my-5 flex flex-col bg-white">
-      {/* <p className="text-2xl font-extrabold py-4">Update {type}</p> */}
-      {letter && (
+      {isLoading && <LoadingSpinner />}
+      {letter && !isLoading && (
         <div className="border-8 border-[#f5eee5]">
           <ReactQuill
             value={letter}

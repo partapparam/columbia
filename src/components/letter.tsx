@@ -3,7 +3,6 @@ import Editor from "./editor"
 import { LetterForm } from "./letterForm"
 import { Footer } from "./footer"
 import hotel from "../assets/hotel-transparent.png"
-import { LoadingSpinner } from "./loading"
 
 const Letter = () => {
   return (
