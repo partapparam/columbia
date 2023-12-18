@@ -3,7 +3,6 @@ import "react-quill/dist/quill.bubble.css"
 import { useContext, useEffect, useState } from "react"
 import { LetterHeader } from "./letterHeader"
 import { LetterFooter } from "./letterFooter"
-import { LETTERHTML } from "../constants/letter"
 import { LetterContext } from "../providers/letterContext"
 import { getContent } from "../services/formService"
 

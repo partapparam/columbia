@@ -5,6 +5,7 @@ import { saveAs } from "file-saver"
 import Delta from "quill-delta"
 import { HEADERHTML } from "../constants/letter"
 import Merger from "../services/fileMergerService"
+import { LoadingSpinner } from "./loading"
 
 interface Config {
   styles: {
@@ -32,13 +33,17 @@ const QUILLCONFIG: Config = {
 
 const AdminTable = () => {
   const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
       const response = await getTableData()
       setData(response)
     }
     fetchData()
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false))
   }, [])
 
   const handleDownload = async (record: object) => {
@@ -66,15 +71,21 @@ const AdminTable = () => {
 
   const saveAll = async () => {
     const blobs = []
+    setIsLoading(true)
     for (const record of data) {
       const blob = await handleDownload(record)
       blobs.push(blob)
     }
     await Merger(blobs)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   return (
     <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg">
+      {isLoading && <LoadingSpinner />}
       <div className="flex">
         <button
           className="bg-blue-500 hover:bg-blue-600 px-4 py-2 my-4 text-white shadow-md rounded-md "
