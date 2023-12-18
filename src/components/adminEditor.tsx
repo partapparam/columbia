@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
-import { getLetterContent, updateLetterContent } from "../services/formService"
+import {
+  getAdminEditorContent,
+  updateLetterContent,
+} from "../services/formService"
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.bubble.css"
 import { useParams } from "react-router-dom"
@@ -12,7 +15,7 @@ const AdminEditor = () => {
   // const [queryType, setQueryType] = useState(useParams("type"))
   useEffect(() => {
     const fetchContent = async (id: string) => {
-      const result = await getLetterContent(id)
+      const result = await getAdminEditorContent(id)
       // console.log(result)
       setLetter(JSON.parse(result.content))
       // setType(result.type)

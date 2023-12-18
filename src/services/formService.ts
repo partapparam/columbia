@@ -100,7 +100,7 @@ export const getTableData = async () => {
   })
 }
 
-export const getLetterContent = async (id: string) => {
+export const getAdminEditorContent = async (id: string) => {
   const base = new Airtable({
     apiKey: import.meta.env.VITE_AIRTABLE_TOKEN,
   }).base(import.meta.env.VITE_AIRTABLE_BASE)
@@ -121,31 +121,40 @@ export const getLetterContent = async (id: string) => {
   })
 }
 
-export const getHeaderContent = async () => {
+export const getContent = async () => {
   const base = new Airtable({
     apiKey: import.meta.env.VITE_AIRTABLE_TOKEN,
   }).base(import.meta.env.VITE_AIRTABLE_BASE)
 
   return new Promise((resolve, reject) => {
-    base(import.meta.env.VITE_AIRTABLE_NAME_EDITOR).find(
-      import.meta.env.VITE_AIRTABLE_EDITOR_HEADER_ID,
-      function (err, record) {
-        if (err) {
-          console.error(err)
-          reject(err)
-          return
+    const allCases = []
+    base(import.meta.env.VITE_AIRTABLE_NAME_EDITOR)
+      .select()
+      .eachPage(
+        function page(records, fetchNextPage) {
+          records.forEach((record) => {
+            allCases.push({
+              id: record._rawJson.id,
+              ...record._rawJson.fields,
+            })
+          })
+          fetchNextPage()
+        },
+        function done(err) {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(allCases)
+          }
         }
-        console.log("Retrieved", record.fields)
-        resolve(record.fields)
-      }
-    )
+      )
   })
 }
 
 export default {
   postForm,
   getTableData,
-  getLetterContent,
-  getHeaderContent,
+  getAdminEditorContent,
+  getContent,
   updateLetterContent,
 }
