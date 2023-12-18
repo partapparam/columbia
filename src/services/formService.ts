@@ -78,10 +78,11 @@ export const getTableData = async () => {
     const allCases = []
 
     base("columbia")
-      .select()
+      .select({ sort: [{ field: "email", direction: "desc" }] })
       .eachPage(
         function page(records, fetchNextPage) {
           records.forEach((record) => {
+            console.log(record)
             allCases.push({
               id: record._rawJson.id,
               ...record._rawJson.fields,
